@@ -1,5 +1,5 @@
 import requests
-from exceptions import ClientException
+from exceptions import ApiwatcherClientException
 
 class Client(object):
     """Simple wrapped arround requests solving
@@ -71,14 +71,14 @@ class Client(object):
         """ Perform the authorization
         """
         if self.auth_data is None:
-            raise UserFaultException("You must provide authorization data.")
+            raise ApiwatcherClientException("You must provide authorization data.")
 
         r = requests.post(
             "{0}/api/token".format(self.base_url), json=self.auth_data
         )
 
         if r.status_code == 401:
-            raise UserFaultException("Wrong credentials supplied: {0}".format(
+            raise ApiwatcherClientException("Wrong credentials supplied: {0}".format(
                 r.json["message"]
             ))
         elif r.status_code != 201:
@@ -86,7 +86,7 @@ class Client(object):
                 reason = r.json()["message"]
             except:
                 reason = r.text
-            raise UserFaultException(
+            raise ApiwatcherClientException(
                 "Authorization failed. Reason {0} {1}".format(
                     r.status_code, reason)
                 )
