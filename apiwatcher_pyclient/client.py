@@ -8,7 +8,8 @@ class Client(object):
     def __init__(
         self,
         api_host="https://webclient.apiwatcher.com",
-        api_port=443
+        api_port=443,
+        verify_certificate=True
     ):
         """Initialize the client.
 
@@ -16,6 +17,9 @@ class Client(object):
         :type api_host: String
         :param api_port: Port where Apiwatcher api is running.
         :type api_port: Integer
+        :param verify_certificate: If true, call will fail in case of invalid
+        certificate
+        :type api_port: Boolean
         """
         if not api_host.startswith("http"):
             api_host = "http://{0}".format(api_host)
@@ -23,6 +27,7 @@ class Client(object):
         self.base_url = "{0}:{1}".format(api_host, api_port)
         self.auth_data = None
         self.token = None
+        self.verify_certificate = verify_certificate
 
     def authorize_client_credentials(
         self, client_id, client_secret=None, scope="apilisk"
@@ -74,7 +79,8 @@ class Client(object):
             raise ApiwatcherClientException("You must provide authorization data.")
 
         r = requests.post(
-            "{0}/api/token".format(self.base_url), json=self.auth_data
+            "{0}/api/token".format(self.base_url), json=self.auth_data,
+            verify=self.verify_certificate
         )
 
         if r.status_code == 401:
@@ -115,7 +121,8 @@ class Client(object):
                 "Authorization": "Bearer {0}".format(self.token),
                 "Content-Type": "application/json"
             },
-            json=data
+            json=data,
+            verify=self.verify_certificate
         )
 
         if r.status_code == 401:
@@ -127,7 +134,8 @@ class Client(object):
                     "Authorization": "Bearer {0}".format(self.token),
                     "Content-Type": "application/json"
                 },
-                json=data
+                json=data,
+                verify=self.verify_certificate
             )
 
         return r
