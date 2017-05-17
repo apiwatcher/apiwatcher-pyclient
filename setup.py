@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='Apiwatcher-Pyclient',
-    version='0.1.0',
+    version='0.1.1',
 
     description='A simple client for Apiwatcher platform',
     long_description=long_description,

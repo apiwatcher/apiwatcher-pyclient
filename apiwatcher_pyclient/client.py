@@ -30,7 +30,7 @@ class Client(object):
         self.verify_certificate = verify_certificate
 
     def authorize_client_credentials(
-        self, client_id, client_secret=None, scope="apilisk"
+        self, client_id, client_secret=None, scope="private_agent"
     ):
         """Authorize to platform with client credentials
 
@@ -85,7 +85,7 @@ class Client(object):
 
         if r.status_code == 401:
             raise ApiwatcherClientException("Wrong credentials supplied: {0}".format(
-                r.json["message"]
+                r.json()["message"]
             ))
         elif r.status_code != 201:
             try:
