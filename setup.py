@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='Apiwatcher-Pyclient',
-    version='0.1.1',
+    version='0.1.2',
 
     description='A simple client for Apiwatcher platform',
     long_description=long_description,
@@ -71,7 +71,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'requests'
+        'requests>=2.8.1'
     ],
 
     # List additional groups of dependencies here (e.g. development
