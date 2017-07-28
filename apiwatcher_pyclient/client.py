@@ -2,14 +2,16 @@ import requests
 from exceptions import ApiwatcherClientException
 
 class Client(object):
-    """Simple wrapped arround requests solving
+    """Simple wrapper around python requests solving authentication to
+    Apiwatcher platform.
     """
 
     def __init__(
         self,
         api_host="https://api2.apiwatcher.com",
         api_port=443,
-        verify_certificate=True
+        verify_certificate=True,
+        timeout=None
     ):
         """Initialize the client.
 
@@ -19,7 +21,9 @@ class Client(object):
         :type api_port: Integer
         :param verify_certificate: If true, call will fail in case of invalid
         certificate
-        :type api_port: Boolean
+        :type verify_certificate: Boolean
+        :param timeout: Timeout of any single request in seconds
+        :type verify_certificate: Number
         """
         if not api_host.startswith("http"):
             api_host = "http://{0}".format(api_host)
@@ -28,6 +32,7 @@ class Client(object):
         self.auth_data = None
         self.token = None
         self.verify_certificate = verify_certificate
+        self.timeout = timeout
 
     def authorize_client_credentials(
         self, client_id, client_secret=None, scope="private_agent"
@@ -80,7 +85,7 @@ class Client(object):
 
         r = requests.post(
             "{0}/api/token".format(self.base_url), json=self.auth_data,
-            verify=self.verify_certificate
+            verify=self.verify_certificate, timeout=self.timeout
         )
 
         if r.status_code == 401:
@@ -122,7 +127,8 @@ class Client(object):
                 "Content-Type": "application/json"
             },
             json=data,
-            verify=self.verify_certificate
+            verify=self.verify_certificate,
+            timeout=self.timeout
         )
 
         if r.status_code == 401:
@@ -135,7 +141,8 @@ class Client(object):
                     "Content-Type": "application/json"
                 },
                 json=data,
-                verify=self.verify_certificate
+                verify=self.verify_certificate,
+                timeout=self.timeout
             )
 
         return r
