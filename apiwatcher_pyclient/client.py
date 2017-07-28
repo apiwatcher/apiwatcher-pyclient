@@ -7,7 +7,7 @@ class Client(object):
 
     def __init__(
         self,
-        api_host="https://webclient.apiwatcher.com",
+        api_host="https://api2.apiwatcher.com",
         api_port=443,
         verify_certificate=True
     ):
