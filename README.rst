@@ -34,3 +34,12 @@ Usage
           "some": "data"
       }
   )
+
+Tests
+======
+
+There are small number of tests. :) To run them use nose.
+
+.. code-block:: shell
+
+  nosetests
